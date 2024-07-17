@@ -1,0 +1,81 @@
+/* Your existing CSS remains unchanged */
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #F1FADA;
+    margin: 0;
+    padding: 0;
+    color: #265073;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 250px;
+}
+
+header {
+    background-color: #2D9596;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+h1 {
+    margin: 0;
+    font-weight: 500;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 2rem;
+}
+
+.card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 1rem;
+    padding: 1.5rem;
+    width: 300px;
+    transition: transform 0.3s;
+    border-top: 4px solid #265073;
+    text-align: center;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h2 {
+    color: #2D9596;
+    margin-top: 0;
+    font-weight: 600;
+}
+
+.card p, .card ul {
+    color: #265073;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.card ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.card ul li {
+    padding: 0.5rem 0;
+}
+
+.card ul li:not(:last-child) {
+    border-bottom: 1px solid #9AD0C2;
+}

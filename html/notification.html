@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Center</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-RiYarbjyfVNPoA6j1C4tHcZ9r1MOWsN3hM2GzZmH4cIc3PXG3eay82PNyG9+TuqDm8l1Ckvg9N62T19nsLOfHg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: white;
+            margin: 0;
+            padding: 0;
+            color: #265073;
+            display: flex;
+            flex-direction: column; /* Ensure main content stretches vertically */
+            align-items: center; /* Center main content horizontally */
+        }
+
+        .sidebar {
+        background-color: #0002A1;
+        color: white;
+        width: 250px;
+        padding: 1rem;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        height: 100%;
+        overflow-y: auto;
+        top: 0; /* Adjust to align with the header */
+        left: 0;
+        z-index: 2; /* Ensure sidebar is above the main content */
+      }
+
+      .sidebar h2 {
+        margin: 0;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #9ad0c2;
+        font-weight: 600;
+      }
+
+      .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .sidebar ul li {
+        margin: 1rem 0;
+      }
+
+      .sidebar ul li a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
+        border-radius: 4px;
+        transition: background 0.3s;
+      }
+
+      .sidebar ul li a:hover {
+        background-color: #332FD0;
+      }
+
+      .sidebar ul li a i {
+        margin-right: 10px;
+      }
+
+        .main-content {
+            margin-left: 250px; /* Adjust to ensure content starts after sidebar */
+            padding: 2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center the card horizontally */
+            margin-top: 70px; /* To offset the fixed header */
+            z-index: 1; /* Ensure main content is above the sidebar */
+        }
+
+        header {
+            background-color: #2D9596;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%; /* Full width header */
+            top: 0;
+            z-index: 3; /* Ensure header is on top */
+        }
+
+        header h1 {
+            margin: 0;
+            font-weight: 500;
+        }
+
+        #notifyBtn {
+            background-color: #265073;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 4; /* Ensure modal is on top of everything */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #FEFEFE;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+
+        .close {
+            color: #AAA;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        label {
+            display: block;
+            margin-top: 1rem;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #CCC;
+        }
+
+        button[type="submit"] {
+            background-color: #2D9596;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 5rem 0;
+            padding: 1.5rem;
+            width: 600px;
+            transition: transform 0.3s;
+            border-top: 4px solid #265073;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            color: #2D9596;
+            margin-top: 0;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .card p, .card ul {
+            color: #265073;
+            font-size: 1rem;
+            margin: 0;
+            text-align: center;
+
+        }
+
+        .card ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .card ul li {
+            padding: 0.5rem 0;
+        }
+
+        .card ul li:not(:last-child) {
+            border-bottom: 1px solid #9AD0C2;
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="dashboard.html"><i class="bi bi-house-door-fill"></i> Dashboard</a></li>
+            <li><a href="#"><i class="bi bi-people-fill"></i> Users</a></li>
+            <li><a href="admission.html"><i class="bi bi-building-fill-add"></i> Admissions</a></li>
+            <li><a href="#"><i class="bi bi-calendar-event-fill"></i> Event Calendar</a></li>
+            <li><a href="notification.html"><i class="bi bi-envelope-at-fill"></i> Email Notifications</a></li>
+            <li><a href="#"><i class="bi bi-coin"></i> Accounting</a></li>
+            <li><a href="settings.html"><i class="bi bi-gear-fill"></i> Settings</a></li>
+        </ul>
+    </aside>
+    <div class="main-content">
+        <header>
+            <h1>Notification Center <i class="fas fa-envelope"></i></h1>
+           
+        </header>
+        <section class="card">
+            <img src="../img/email-2-icon.png" alt="Email Icon" style="width: 100px; display: block; margin: 0 auto 1rem;">
+            <h2>Emails</h2>
+            <p>Manage all your email notifications here.</p>
+            <!-- <ul>
+                <li>Staff</li>
+                <li>Teachers</li>
+                <li>Parents</li>
+            </ul> -->
+            <button id="notifyBtn">Send Emails</button>
+        </section>
+        <!-- Modal -->
+        <div id="notifyModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Send Notification</h2>
+                <form>
+                    <label for="receiver">Receiver</label>
+                    <select id="receiver" name="receiver">
+                        <option value="" disabled selected>Select</option>
+                        <option value="parent">Parent</option>
+                        <option value="staff">Staff</option>
+                        <option value="teacher">Teacher</option>
+                    </select>
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="4" required></textarea>
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById("notifyModal");
+        const btn = document.getElementById("notifyBtn");
+        const span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

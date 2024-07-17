@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>School Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      integrity="sha512-RiYarbjyfVNPoA6j1C4tHcZ9r1MOWsN3hM2GzZmH4cIc3PXG3eay82PNyG9+TuqDm8l1Ckvg9N62T19nsLOfHg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const calendarEl = document.getElementById("calendar");
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: "dayGridMonth",
+        });
+        calendar.render();
+      });
+    </script>
+    <style>
+      .main-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        margin-left: 250px;
+      }
+      .sidebar {
+        background-color: #0002A1;
+        color: white;
+        width: 250px;
+        padding: 1rem;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        height: 100%;
+        overflow-y: auto;
+        top: 0; /* Adjust to align with the header */
+        left: 0;
+        z-index: 2; /* Ensure sidebar is above the main content */
+      }
+
+      .sidebar h2 {
+        margin: 0;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #9ad0c2;
+        font-weight: 600;
+      }
+
+      .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .sidebar ul li {
+        margin: 1rem 0;
+      }
+
+      .sidebar ul li a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
+        border-radius: 4px;
+        transition: background 0.3s;
+      }
+
+      .sidebar ul li a:hover {
+        background-color: #332FD0;
+      }
+
+      .sidebar ul li a i {
+        margin-right: 10px;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #fefefe;
+        margin: 0;
+        padding: 0;
+        color: #0002A1;
+      }
+      #addQuoteBtn,
+      #addBriefingBtn {
+        display: inline-block;
+        margin-top: 1rem;
+        background-color: #fefefe;
+        color: #7900FF;
+        padding: 0.5rem 0.5rem;
+        font-size: 3rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      #viewBday{
+        background-color: #7900FF;
+        color: #fff;
+        padding: 0.5rem 0.5rem;
+        
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .container {
+        display: flex;
+        height: 100vh;
+      }
+
+      
+
+      header {
+        background-color: #0002A1;
+        color: white;
+        text-align: center;
+        padding: 1rem 0;
+      }
+
+      h1 {
+        margin: 0;
+        font-weight: 500;
+      }
+
+      main {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        padding: 2rem;
+      }
+
+      .card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin: 1rem;
+        padding: 1.5rem;
+        width: 300px;
+        transition: transform 0.3s;
+        border-top: 4px solid #0002A1;
+        text-align: center;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .card h2 {
+        color: black;
+        margin-top: 0;
+        font-weight: 600;
+      }
+
+      .card p,
+      .card ul {
+        color: black;
+        font-size: 1rem;
+        margin: 0;
+      }
+      .card p {
+        color: #007bff;
+        font-size: 1.2rem;
+        margin: 0;
+        
+      }
+      .card ul {
+        list-style-type: none;
+        padding-left: 0;
+      }
+
+      .card ul li {
+        padding: 0.5rem 0;
+      }
+
+      .card ul li:not(:last-child) {
+        border-bottom: 1px solid #9ad0c2;
+      }
+
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 60px;
+      }
+
+      .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 8px;
+        text-align: left;
+      }
+
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .modal-header {
+        margin-bottom: 1rem;
+        border-bottom: 1px solid #007bff;
+        padding-bottom: 0.5rem;
+      }
+
+      .modal-header h2 {
+        margin: 0;
+        color: #7900FF;
+      }
+
+      .modal-body label {
+        display: block;
+        margin: 1rem 0 0.5rem;
+      }
+
+      .modal-body input,
+      .modal-body textarea {
+        width: calc(100% - 24px);
+        padding: 10px;
+        border: 1px solid #007bff;
+        border-radius: 4px;
+      }
+
+      .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        border-top: 1px solid #007bff;
+        padding-top: 1rem;
+        margin-top: 1rem;
+      }
+
+      .modal-footer button {
+        background-color: #7900FF;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .modal-footer button:hover {
+        background-color: #007bff;
+      }
+      .school-logo {
+        width: 200px; /* Adjust size as needed */
+        height: 200px; /* Adjust size as needed */
+        border-radius: 50%;
+        margin-bottom: 10px;
+      }
+.fa {
+  padding: 10px;
+  margin: 3px;
+  font-size: 20px;
+  width: 25px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 10px;
+}
+
+/* Add a hover effect if you want */
+.fa:hover {
+  opacity: 0.7;
+}
+
+/* Set a specific color for each brand */
+
+/* Facebook */
+.fa-facebook {
+  background: #3B5998;
+  color: white;
+}
+/* Twitter */
+.fa-twitter {
+  background: #55ACEE;
+  color: white;
+}
+.fa-youtube {
+  background: rgb(192, 28, 28);
+  color: white;
+}
+.fa-instagram {
+  background: rgba(128, 0, 128, 0.756);
+  color: white;
+}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <aside class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+          <li>
+            <a href="dashboard.html"
+              ><i class="bi bi-house-door-fill"></i> Dashboard</a
+            >
+          </li>
+          <li>
+            <a href="#"><i class="bi bi-people-fill"></i> Users</a>
+          </li>
+          <li>
+            <a href="admission.html"><i class="bi bi-building-fill-add"></i> Admissions</a>
+          </li>
+          <li>
+            <a href="#"
+              ><i class="bi bi-calendar-event-fill"></i> Event Calendar</a
+            >
+          </li>
+          <li>
+            <a href="notification.html"
+              ><i class="bi bi-envelope-at-fill"></i> Email Notifications</a
+            >
+          </li>
+          <li>
+            <a href="#"><i class="bi bi-coin"></i> Accounting</a>
+          </li>
+          <li>
+            <a href="settings.html"><i class="bi bi-gear-fill"></i> Settings</a>
+          </li>
+        </ul>
+      </aside>
+      <div class="main-content">
+        <header>
+          <h1>School Dashboard</h1>
+        </header>
+        <main>
+          <section class="card">
+            <img
+              class="school-logo"
+              src="../img/schoolLogo.png"
+              alt="School Logo"
+            />
+            <hr>
+            <div class="social-links">
+              <a href="#" class="fa fa-facebook"></a>
+              <a href="#" class="fa fa-twitter"></a>
+              <a href="#" class="fa fa-youtube"></a>
+              <a href="#" class="fa fa-instagram"></a>
+            </div>
+          </section>
+
+          <section class="card">
+            <h2>Quote of the Day</h2>
+            <p>
+              "Education is the most powerful weapon which you can use to change
+              the world." - Nelson Mandela
+            </p>
+            <a id="addQuoteBtn"><i class="bi bi-plus-circle"></i></a>
+          </section>
+          <section class="card">
+            <h2> Birthdays</h2>
+            <img
+              src="../img/bdayCake.gif"
+              alt="Inspirational GIF"
+              style="width: 50%; max-width: 500px"
+            />
+            <ul>
+              <li>STUDENT John Doe - July 2</li>
+              <li>STAFF Jane Smith - July 5</li>
+            </ul>
+            <a id="viewBday">View All Birthdays</a>
+          </section>
+          
+          <section class="card">
+            <h2>Daily Briefing</h2>
+            <p>Attendance: 95%</p>
+            <p>Meetings & Appointments:</p>
+            <ul>
+              <li>Staff Meeting at 10 AM in Conference Room B.</li>
+              <li>Parent-Teacher Meeting at 2 PM in Room 1.</li>
+            </ul>
+
+            <p>Health & Safety Updates:</p>
+            <ul>
+              <li>Wear masks in common areas.</li>
+              <li>Sanitize hands regularly.</li>
+              <li>Social distancing.</li>
+            </ul>
+            <p>Cafeteria Menu:</p>
+            <ul>
+              <li>Spaghetti, Salad, and Fruit</li>
+            </ul>
+            <a id="addBriefingBtn"><i class="bi bi-plus-circle"></i></a>
+          </section>
+          <section class="card">
+            <h2>Upcoming Events</h2>
+            <div id="calendar"></div>
+            <!-- Calendar container -->
+            <ul>
+              <li>School Assembly - July 3</li>
+              <li>Sports Day - July 10</li>
+            </ul>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <!-- Quote Modal -->
+    <div id="quoteModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-header">
+          <h2>Add Quote of the Day</h2>
+        </div>
+        <div class="modal-body">
+          <label for="quote">Quote:</label>
+          <textarea id="quote" rows="4"></textarea>
+          <label for="author">Author:</label>
+          <input type="text" id="author" />
+        </div>
+        <div class="modal-footer">
+          <button id="saveQuoteBtn">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Daily Briefing Modal -->
+    <div id="briefingModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-header">
+          <h2>Add Daily Briefing</h2>
+        </div>
+        <div class="modal-body">
+          <label for="attendance">Attendance:</label>
+          <input type="text" id="attendance" />
+          <label for="meetings">Meetings & Appointments:</label>
+          <textarea id="meetings" rows="3"></textarea>
+          <label for="health">Health & Safety Updates:</label>
+          <textarea id="health" rows="3"></textarea>
+          <label for="menu">Cafeteria Menu:</label>
+          <textarea id="menu" rows="3"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button id="saveBriefingBtn">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Get the modals
+      var quoteModal = document.getElementById("quoteModal");
+      var briefingModal = document.getElementById("briefingModal");
+
+      // Get the buttons that open the modals
+      var quoteBtn = document.getElementById("addQuoteBtn");
+      var briefingBtn = document.getElementById("addBriefingBtn");
+
+      // Get the <span> elements that close the modals
+      var quoteSpan = quoteModal.getElementsByClassName("close")[0];
+      var briefingSpan = briefingModal.getElementsByClassName("close")[0];
+
+      // Get the save buttons
+      var saveQuoteBtn = document.getElementById("saveQuoteBtn");
+      var saveBriefingBtn = document.getElementById("saveBriefingBtn");
+
+      // When the user clicks the button, open the corresponding modal
+      quoteBtn.onclick = function () {
+        quoteModal.style.display = "block";
+      };
+
+      briefingBtn.onclick = function () {
+        briefingModal.style.display = "block";
+      };
+
+      // When the user clicks on <span> (x), close the corresponding modal
+      quoteSpan.onclick = function () {
+        quoteModal.style.display = "none";
+      };
+
+      briefingSpan.onclick = function () {
+        briefingModal.style.display = "none";
+      };
+
+      // When the user clicks anywhere outside of the modals, close them
+      window.onclick = function (event) {
+        if (event.target == quoteModal) {
+          quoteModal.style.display = "none";
+        } else if (event.target == briefingModal) {
+          briefingModal.style.display = "none";
+        }
+      };
+
+      // When the user clicks the save buttons, close the modals and save the content
+      saveQuoteBtn.onclick = function () {
+        var quote = document.getElementById("quote").value;
+        var author = document.getElementById("author").value;
+
+        if (quote && author) {
+          // Update the quote of the day (this is just for demo purposes)
+          var quoteParagraph = document.querySelector(".card p");
+          quoteParagraph.innerHTML = '"' + quote + '" - ' + author;
+
+          // Close the modal
+          quoteModal.style.display = "none";
+        } else {
+          alert("Please fill in both fields.");
+        }
+      };
+
+      saveBriefingBtn.onclick = function () {
+        var attendance = document.getElementById("attendance").value;
+        var meetings = document.getElementById("meetings").value;
+        var health = document.getElementById("health").value;
+        var menu = document.getElementById("menu").value;
+
+        if (attendance && meetings && health && menu) {
+          // Update the daily briefing (this is just for demo purposes)
+          var briefingSection = document.querySelector(".card h2 + p");
+          briefingSection.innerHTML = `
+            Attendance: ${attendance}%<br>
+            Meetings & Appointments:<br>${meetings.replace(/\n/g, "<br>")}<br>
+            Health & Safety Updates:<br>${health.replace(/\n/g, "<br>")}<br>
+            Cafeteria Menu:<br>${menu.replace(/\n/g, "<br>")}
+          `;
+
+          // Close the modal
+          briefingModal.style.display = "none";
+        } else {
+          alert("Please fill in all fields.");
+        }
+      };
+    </script>
+  </body>
+</html>
