@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      integrity="sha512-RiYarbjyfVNPoA6j1C4tHcZ9r1MOWsN3hM2GzZmH4cIc3PXG3eay82PNyG9+TuqDm8l1Ckvg9N62T19nsLOfHg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        
+        .container {
+            width: 100%;
+            margin: auto;
+            overflow: hidden;
+            padding-left: 20px;
+            padding-right: 20px;
+            
+        }
+
+        .header {
+            background: #333;
+            color: #fff;
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .social-media img {
+            height: 30px;
+            margin: 0 5px;
+        }
+
+        .main {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .profile {
+            flex: 3;
+            background: #fff;
+            padding: 20px;
+        }
+
+        .profile-header {
+            position: relative;
+        }
+
+        .profile-header img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .profile-info {
+            position: absolute;
+            bottom: -50px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-picture img {
+            border-radius: 50%;
+            border: 1px solid #fff;
+            width: 150px;
+            height: 150px;
+           
+        }
+
+        .profile-info h2 {
+            margin-left: 20px;
+            color: #fff;
+        }
+
+        .account-info,
+        .personal-info {
+            margin-top: 60px;
+        }
+
+        .account-info p,
+        .personal-info h3 {
+            margin: 10px 0;
+        }
+
+        .highlight {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .personal-info table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .personal-info table,
+        .personal-info th,
+        .personal-info td {
+            border: 1px solid #ddd;
+        }
+
+        .personal-info th,
+        .personal-info td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .personal-info th {
+            background-color: #f2f2f2;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Timetable Styles */
+        .timetable {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #fff;
+            border: 2px solid #dee2e6;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .timetable th,
+        .timetable td {
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .timetable th {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        .timetable .highlight {
+            background-color: #f8f9fa;
+        }
+
+        .timetable .special {
+            background-color: #f0f0f0;
+        }
+
+        .timetable .subject-eng {
+            background-color: #d4e9f2;
+        }
+
+        .timetable .subject-mat {
+            background-color: #fde8d4;
+        }
+
+        .timetable .subject-che {
+            background-color: #f2d4d4;
+        }
+
+        .timetable .subject-phy {
+            background-color: #e4d4f2;
+        }
+
+        .timetable .subject-lab {
+            background-color: #d4f2d8;
+        }
+
+        .timetable .subject-sports {
+            background-color: #d4f2eb;
+        }
+
+        .timetable .subject-library {
+            background-color: #f2edd4;
+        }
+
+        .timetable .subject-seminar {
+            background-color: #e6d4f2;
+        }
+        .main-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        margin-left: 250px;
+      }
+      .sidebar {
+        background-color: #0002A1;
+        color: white;
+        width: 250px;
+        padding: 1rem;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        height: 100%;
+        overflow-y: auto;
+        top: 0; /* Adjust to align with the header */
+        left: 0;
+        z-index: 2; /* Ensure sidebar is above the main content */
+      }
+
+      .sidebar h2 {
+        margin: 0;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #9ad0c2;
+        font-weight: 600;
+      }
+
+      .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .sidebar ul li {
+        margin: 1rem 0;
+      }
+
+      .sidebar ul li a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
+        border-radius: 4px;
+        transition: background 0.3s;
+      }
+
+      .sidebar ul li a:hover {
+        background-color: #332FD0;
+      }
+
+      .sidebar ul li a i {
+        margin-right: 10px;
+      }
+      header {
+            background-color: #0002A1;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+          }
+
+          header nav ul {
+            list-style: none;
+            padding: 0;
+            
+            display: flex;
+            justify-content: center;
+          }
+
+          header nav ul li {
+            margin: 0 1rem;
+          }
+
+          header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background 0.3s;
+          }
+
+          header nav ul li a:hover {
+            background-color: #007bff;
+          }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+          <li>
+            <a href="dashboard.html"
+              ><i class="bi bi-house-door-fill"></i> Dashboard</a
+            >
+          </li>
+          <li>
+            <a href="user.html"><i class="bi bi-people-fill"></i> Users</a>
+          </li>
+          <li>
+            <a href="admission.html"><i class="bi bi-building-fill-add"></i> Admissions</a>
+          </li>
+          <li>
+            <a href="#"
+              ><i class="bi bi-calendar-event-fill"></i> Event Calendar</a
+            >
+          </li>
+          <li>
+            <a href="notification.html"
+              ><i class="bi bi-envelope-at-fill"></i> Email Notifications</a
+            >
+          </li>
+          <li>
+            <a href="#"><i class="bi bi-coin"></i> Accounting</a>
+          </li>
+          <li>
+            <a href="settings.html"><i class="bi bi-gear-fill"></i> Settings</a>
+          </li>
+        </ul>
+      </aside>
+      <div class="main-content">
+    
+        <main>
+            <header>
+            <nav class="quick-links">
+                <ul>
+                    <li><a href="user_student.html"> <i class="bi bi-arrow-left-square"></i> </a></li>
+                    <li><a href="#">Personal Information</a></li>
+                    <!-- <li><a href="#">Update Information</a></li> -->
+                    <li><a href="#" id="timetableLink">Timetable</a></li>
+                    <!-- <li><a href="#">Subjects</a></li> -->
+                </ul>
+            </nav>
+        </header>
+        <div class="container">
+            <section class="profile">
+                <div class="profile-header">
+                    <img src="../img/student_background.jpg" alt="Profile Background">
+                    <div class="profile-info">
+                        <div class="profile-picture">
+                            <img src="../img/profilepic.png" alt="Profile Picture">
+                        </div>
+                    </div>
+                </div>
+                <div class="account-info">
+                    <p>Account type: <span class="highlight">Student</span></p>
+                    <p>Member since: <span class="highlight">05/03/2024</span></p>
+                </div>
+                <div class="personal-info">
+                    <h3>Personal Information</h3>
+                    <table>
+                        <tr>
+                            <th>Name</th>
+                            <td>Fernando Estrada</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>demo@fernando.com</td>
+                        </tr>
+                        <tr>
+                            <th>Username</th>
+                            <td>fernando</td>
+                        </tr>
+                        <tr>
+                            <th>Personal document</th>
+                            <td>4556465465</td>
+                        </tr>
+                        <tr>
+                            <th>Gender</th>
+                            <td>Male</td>
+                        </tr>
+                        <tr>
+                            <th>Phone</th>
+                            <td>2343432423</td>
+                        </tr>
+                        <tr>
+                            <th>Birthday</th>
+                            <td>06/21/2024</td>
+                        </tr>
+                        <tr>
+                            <th>Address</th>
+                            <td>Guatemala</td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- The Modal -->
+    <div id="timetableModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h1>TIME TABLE</h1>
+            <table class="timetable">
+                <tr>
+                    <th>Day/Period</th>
+                    <th>I<br>9:30-10:20</th>
+                    <th>II<br>10:20-11:10</th>
+                    <th>III<br>11:10-12:00</th>
+                    <th>12:00-12:40</th>
+                    <th>IV<br>12:40-1:30</th>
+                    <th>V<br>1:30-2:20</th>
+                    <th>VI<br>2:20-3:10</th>
+                    <th>VII<br>3:10-4:00</th>
+                </tr>
+                <tr>
+                    <td class="highlight"><b>Monday</b></td>
+                    <td class="subject-eng">Eng</td>
+                    <td class="subject-mat">Mat</td>
+                    <td class="subject-che">Che</td>
+                    <td rowspan="6" class="special"><b>LUNCH</b></td>
+                    <td colspan="3" class="subject-lab">LAB</td>
+                    <td class="subject-phy">Phy</td>
+                </tr>
+                <tr>
+                    <td class="highlight"><b>Tuesday</b></td>
+                    <td colspan="3" class="subject-lab">LAB</td>
+                    <td class="subject-eng">Eng</td>
+                    <td class="subject-che">Che</td>
+                    <td class="subject-mat">Mat</td>
+                    <td class="subject-sports">SPORTS</td>
+                </tr>
+                <tr>
+                    <td class="highlight"><b>Wednesday</b></td>
+                    <td class="subject-mat">Mat</td>
+                    <td class="subject-phy">Phy</td>
+                    <td class="subject-eng">Eng</td>
+                    <td class="subject-che">Che</td>
+                    <td colspan="3" class="subject-library">LIBRARY</td>
+                </tr>
+                <tr>
+                    <td class="highlight"><b>Thursday</b></td>
+                    <td class="subject-phy">Phy</td>
+                    <td class="subject-eng">Eng</td>
+                    <td class="subject-che">Che</td>
+                    <td colspan="3" class="subject-lab">LAB</td>
+                    <td class="subject-mat">Mat</td>
+                </tr>
+                <tr>
+                    <td class="highlight"><b>Friday</b></td>
+                    <td colspan="3" class="subject-lab">LAB</td>
+                    <td class="subject-mat">Mat</td>
+                    <td class="subject-che">Che</td>
+                    <td class="subject-eng">Eng</td>
+                    <td class="subject-phy">Phy</td>
+                </tr>
+                <!-- <tr>
+                        <td class="highlight"><b>Saturday</b></td>
+                        <td class="subject-eng">Eng</td>
+                        <td class="subject-che">Che</td>
+                        <td class="subject-mat">Mat</td>
+                        <td colspan="3" class="subject-seminar">SEMINAR</td>
+                        <td class="subject-sports">SPORTS</td>
+                    </tr> -->
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("timetableModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("timetableLink");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    </div>
+</body>
+
+</html>
